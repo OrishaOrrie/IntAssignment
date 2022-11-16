@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+      <title>Deloitte Assignment</title>
+  
+
+  </head>
+      
+        <meta charset="utf-8">
+        <title> Assignment</title>
+        <script defer src="src/index" charset="utf-8"></script>
+    
+    <body>
+
+          <div class="mainassign">
+            <h2>Enter a sentence</h2>
+            <form>
+              <div class="inputbx" >
+                <input type="text" name="inputbox" required="">
+                <label>Sentence</label>
+              </div>
+  
+              <a href="#"> 
+                <span></span>
+                <span></span>
+                <input class="button button1" Value="Submit" onClick="testResults(this.form)">
+                <span></span>
+                <span></span>
+              
+              </a>
+              <br>
+              <br>
+              <br>
+              <br>
+              <div id="outsentence" class="outsentence" style="display:none"></div>
+            </form>
+          </div>
+    </body>
+
+    <SCRIPT LANGUAGE="JavaScript">
+      function testResults (form) {
+          var TestVar = form.inputbox.value;
+          var T = document.getElementById("outsentence");
+          T.style.display = "block";  // <-- Set it to block
+          var mapObj = {
+            Microsoft:"Microsoft" + "\u00A9",
+            Oracle:"Oracle" + "\u00A9",
+            Google:"Google" + "\u00A9",
+            Amazon: "Amazon" + "\u00A9",
+            Deloitte: "Deloitte"  + "\u00A9",
+            microsoft:"Microsoft" + "\u00A9",
+            oracle:"Oracle" + "\u00A9",
+            google:"Google" + "\u00A9",
+            amazon: "Amazon" + "\u00A9",
+            deloitte: "Deloitte"  + "\u00A9"
+          };
+          TestVar = TestVar.replace(/Microsoft|Google|Oracle|Amazon|Deloitte|microsoft|google|oracle|amazon|deloitte/gi, function(matched){
+            return mapObj[matched];
+          });
+          //alert(TestVar);
+          document.getElementById('outsentence').innerHTML = TestVar;
+
+      }
+      </SCRIPT>
+</html>
+
+<style>
+html {
+  height: 100%;
+}
+body {
+  margin:0;
+  padding:0;
+  font-family: sans-serif;
+  background: linear-gradient(#141e30, #243b55);
+}
+
+.outsentence {
+      font-family: cursive, sans-serif;
+      background-color: #2eccaa;
+      color: white;
+      padding: 10px;
+      border-radius: 4px;
+      box-shadow: 2px 2px 10px 13px #7fecad;
+    }
+ .button1 {
+  background-color: aquamarine;
+  position: relative;
+  display: inline-block;
+  padding: 10px 20px;
+  color: #03e9f4;
+  font-size: 16px;
+  text-decoration: none;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: .5s;
+  margin-top: 40px;
+  letter-spacing: 4px;
+  font-weight: bold;
+
+}
+
+.button1:hover {
+  background: #5b6bd1;
+}
+
+.button1:active {
+  background: #6b7be1;
+} 
+.mainassign {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  padding: 40px;
+  transform: translate(-50%, -50%);
+  background: rgba(0,0,0,.5);
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0,0,0,.6);
+  border-radius: 10px;
+}
+
+.mainassign h2 {
+  margin: 0 0 30px;
+  padding: 0;
+  color: #fff;
+  text-align: center;
+}
+
+.mainassign .inputbx {
+  position: relative;
+}
+
+.mainassign .inputbx input {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #fff;
+  margin-bottom: 10px;
+  border: none;
+  border-bottom: 1px solid #fff;
+  outline: none;
+  background: transparent;
+}
+.mainassign .inputbx label {
+  position: absolute;
+  top:0;
+  left: 0;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #fff;
+  pointer-events: none;
+  transition: .5s;
+}
+
+.mainassign .inputbx input:focus ~ label,
+.mainassign .inputbx input:valid ~ label {
+  top: -20px;
+  left: 0;
+  color: #03e9f4;
+  font-size: 12px;
+}
+
+
+</style>

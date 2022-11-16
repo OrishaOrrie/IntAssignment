@@ -1,0 +1,373 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "sites_delassign_name": {
+            "defaultValue": "delassign",
+            "type": "String"
+        },
+        "serverfarms_delassign_externalid": {
+            "defaultValue": "/subscriptions/9b1493f9-2684-4eda-9489-8c7d1254a222/resourceGroups/DeloitteAssignment/providers/Microsoft.Web/serverfarms/delassign",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Web/sites",
+            "apiVersion": "2022-03-01",
+            "name": "[parameters('sites_delassign_name')]",
+            "location": "South Africa North",
+            "kind": "app",
+            "properties": {
+                "enabled": true,
+                "hostNameSslStates": [
+                    {
+                        "name": "[concat(parameters('sites_delassign_name'), '.azurewebsites.net')]",
+                        "sslState": "Disabled",
+                        "hostType": "Standard"
+                    },
+                    {
+                        "name": "[concat(parameters('sites_delassign_name'), '.scm.azurewebsites.net')]",
+                        "sslState": "Disabled",
+                        "hostType": "Repository"
+                    }
+                ],
+                "serverFarmId": "[parameters('serverfarms_delassign_externalid')]",
+                "reserved": false,
+                "isXenon": false,
+                "hyperV": false,
+                "vnetRouteAllEnabled": false,
+                "vnetImagePullEnabled": false,
+                "vnetContentShareEnabled": false,
+                "siteConfig": {
+                    "numberOfWorkers": 1,
+                    "acrUseManagedIdentityCreds": false,
+                    "alwaysOn": false,
+                    "http20Enabled": false,
+                    "functionAppScaleLimit": 0,
+                    "minimumElasticInstanceCount": 0
+                },
+                "scmSiteAlsoStopped": false,
+                "clientAffinityEnabled": true,
+                "clientCertEnabled": false,
+                "clientCertMode": "Required",
+                "hostNamesDisabled": false,
+                "customDomainVerificationId": "6B4FC9370E75BBBC9D7B62AC00CABEF955B8060FCFB61FAD262033CBD6E2D2D1",
+                "containerSize": 0,
+                "dailyMemoryTimeQuota": 0,
+                "httpsOnly": false,
+                "redundancyMode": "None",
+                "storageAccountRequired": false,
+                "keyVaultReferenceIdentity": "SystemAssigned"
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/basicPublishingCredentialsPolicies",
+            "apiVersion": "2022-03-01",
+            "name": "[concat(parameters('sites_delassign_name'), '/ftp')]",
+            "location": "South Africa North",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_delassign_name'))]"
+            ],
+            "properties": {
+                "allow": true
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/basicPublishingCredentialsPolicies",
+            "apiVersion": "2022-03-01",
+            "name": "[concat(parameters('sites_delassign_name'), '/scm')]",
+            "location": "South Africa North",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_delassign_name'))]"
+            ],
+            "properties": {
+                "allow": true
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/config",
+            "apiVersion": "2022-03-01",
+            "name": "[concat(parameters('sites_delassign_name'), '/web')]",
+            "location": "South Africa North",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_delassign_name'))]"
+            ],
+            "properties": {
+                "numberOfWorkers": 1,
+                "defaultDocuments": [
+                    "Default.htm",
+                    "Default.html",
+                    "Default.asp",
+                    "index.htm",
+                    "index.html",
+                    "iisstart.htm",
+                    "default.aspx",
+                    "index.php",
+                    "hostingstart.html"
+                ],
+                "netFrameworkVersion": "v4.0",
+                "phpVersion": "5.6",
+                "nodeVersion": "~18",
+                "requestTracingEnabled": false,
+                "remoteDebuggingEnabled": false,
+                "httpLoggingEnabled": true,
+                "acrUseManagedIdentityCreds": false,
+                "logsDirectorySizeLimit": 100,
+                "detailedErrorLoggingEnabled": false,
+                "publishingUsername": "$delassign",
+                "scmType": "None",
+                "use32BitWorkerProcess": true,
+                "webSocketsEnabled": false,
+                "alwaysOn": false,
+                "managedPipelineMode": "Integrated",
+                "virtualApplications": [
+                    {
+                        "virtualPath": "/",
+                        "physicalPath": "site\\wwwroot",
+                        "preloadEnabled": false
+                    }
+                ],
+                "loadBalancing": "LeastRequests",
+                "experiments": {
+                    "rampUpRules": []
+                },
+                "autoHealEnabled": false,
+                "vnetRouteAllEnabled": false,
+                "vnetPrivatePortsCount": 0,
+                "localMySqlEnabled": false,
+                "ipSecurityRestrictions": [
+                    {
+                        "ipAddress": "Any",
+                        "action": "Allow",
+                        "priority": 2147483647,
+                        "name": "Allow all",
+                        "description": "Allow all access"
+                    }
+                ],
+                "scmIpSecurityRestrictions": [
+                    {
+                        "ipAddress": "Any",
+                        "action": "Allow",
+                        "priority": 2147483647,
+                        "name": "Allow all",
+                        "description": "Allow all access"
+                    }
+                ],
+                "scmIpSecurityRestrictionsUseMain": false,
+                "http20Enabled": false,
+                "minTlsVersion": "1.2",
+                "scmMinTlsVersion": "1.2",
+                "ftpsState": "AllAllowed",
+                "preWarmedInstanceCount": 0,
+                "functionsRuntimeScaleMonitoringEnabled": false,
+                "minimumElasticInstanceCount": 0,
+                "azureStorageAccounts": {}
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/deployments",
+            "apiVersion": "2022-03-01",
+            "name": "[concat(parameters('sites_delassign_name'), '/059983c68e534f2180acc9b0be21ec5a')]",
+            "location": "South Africa North",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_delassign_name'))]"
+            ],
+            "properties": {
+                "status": 4,
+                "author_email": "N/A",
+                "author": "VS Code",
+                "deployer": "ZipDeploy",
+                "message": "Created via a push deployment",
+                "start_time": "2022-11-15T07:15:17.7268405Z",
+                "end_time": "2022-11-15T07:15:29.1487715Z",
+                "active": false
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/deployments",
+            "apiVersion": "2022-03-01",
+            "name": "[concat(parameters('sites_delassign_name'), '/112c38370e694aac90e287141dd71802')]",
+            "location": "South Africa North",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_delassign_name'))]"
+            ],
+            "properties": {
+                "status": 4,
+                "author_email": "N/A",
+                "author": "VS Code",
+                "deployer": "ZipDeploy",
+                "message": "Created via a push deployment",
+                "start_time": "2022-11-15T07:17:53.1491563Z",
+                "end_time": "2022-11-15T07:18:04.8681792Z",
+                "active": false
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/deployments",
+            "apiVersion": "2022-03-01",
+            "name": "[concat(parameters('sites_delassign_name'), '/2fe8c55ab2894d0697fb87f06b8eb56a')]",
+            "location": "South Africa North",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_delassign_name'))]"
+            ],
+            "properties": {
+                "status": 4,
+                "author_email": "N/A",
+                "author": "VS Code",
+                "deployer": "ZipDeploy",
+                "message": "Created via a push deployment",
+                "start_time": "2022-11-15T07:28:46.9013277Z",
+                "end_time": "2022-11-15T07:28:58.3232469Z",
+                "active": false
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/deployments",
+            "apiVersion": "2022-03-01",
+            "name": "[concat(parameters('sites_delassign_name'), '/39f8d3ba3bff4b9e96f97f7bb96afc01')]",
+            "location": "South Africa North",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_delassign_name'))]"
+            ],
+            "properties": {
+                "status": 4,
+                "author_email": "N/A",
+                "author": "VS Code",
+                "deployer": "ZipDeploy",
+                "message": "Created via a push deployment",
+                "start_time": "2022-11-15T07:22:21.6778153Z",
+                "end_time": "2022-11-15T07:22:33.1153423Z",
+                "active": false
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/deployments",
+            "apiVersion": "2022-03-01",
+            "name": "[concat(parameters('sites_delassign_name'), '/4fe3485e10cf487788e9d917237499b6')]",
+            "location": "South Africa North",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_delassign_name'))]"
+            ],
+            "properties": {
+                "status": 4,
+                "author_email": "N/A",
+                "author": "VS Code",
+                "deployer": "ZipDeploy",
+                "message": "Created via a push deployment",
+                "start_time": "2022-11-15T07:24:23.3187644Z",
+                "end_time": "2022-11-15T07:24:34.8812864Z",
+                "active": false
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/deployments",
+            "apiVersion": "2022-03-01",
+            "name": "[concat(parameters('sites_delassign_name'), '/57906aa5a1ac4e28bc0927bb298588d5')]",
+            "location": "South Africa North",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_delassign_name'))]"
+            ],
+            "properties": {
+                "status": 4,
+                "author_email": "N/A",
+                "author": "VS Code",
+                "deployer": "ZipDeploy",
+                "message": "Created via a push deployment",
+                "start_time": "2022-11-15T07:12:37.4137259Z",
+                "end_time": "2022-11-15T07:12:49.0388174Z",
+                "active": false
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/deployments",
+            "apiVersion": "2022-03-01",
+            "name": "[concat(parameters('sites_delassign_name'), '/871da8b58d354e81aca810d123a3ecaa')]",
+            "location": "South Africa North",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_delassign_name'))]"
+            ],
+            "properties": {
+                "status": 4,
+                "author_email": "N/A",
+                "author": "VS Code",
+                "deployer": "ZipDeploy",
+                "message": "Created via a push deployment",
+                "start_time": "2022-11-15T07:31:33.1234792Z",
+                "end_time": "2022-11-15T07:31:44.1860693Z",
+                "active": false
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/deployments",
+            "apiVersion": "2022-03-01",
+            "name": "[concat(parameters('sites_delassign_name'), '/b8f5c8ce3079469fa9b0ce7fff4604e5')]",
+            "location": "South Africa North",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_delassign_name'))]"
+            ],
+            "properties": {
+                "status": 4,
+                "author_email": "N/A",
+                "author": "VS Code",
+                "deployer": "ZipDeploy",
+                "message": "Created via a push deployment",
+                "start_time": "2022-11-15T07:33:41.7958998Z",
+                "end_time": "2022-11-15T07:33:53.0930187Z",
+                "active": true
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/deployments",
+            "apiVersion": "2022-03-01",
+            "name": "[concat(parameters('sites_delassign_name'), '/ccad0926fdd949aab055d4a380f5445a')]",
+            "location": "South Africa North",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_delassign_name'))]"
+            ],
+            "properties": {
+                "status": 4,
+                "author_email": "N/A",
+                "author": "VS Code",
+                "deployer": "ZipDeploy",
+                "message": "Created via a push deployment",
+                "start_time": "2022-11-15T07:29:57.4493386Z",
+                "end_time": "2022-11-15T07:30:08.7462471Z",
+                "active": false
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/deployments",
+            "apiVersion": "2022-03-01",
+            "name": "[concat(parameters('sites_delassign_name'), '/d19ae9e68aef476999a903edd9745999')]",
+            "location": "South Africa North",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_delassign_name'))]"
+            ],
+            "properties": {
+                "status": 4,
+                "author_email": "N/A",
+                "author": "VS Code",
+                "deployer": "ZipDeploy",
+                "message": "Created via a push deployment",
+                "start_time": "2022-11-15T07:20:24.1930783Z",
+                "end_time": "2022-11-15T07:20:35.7243986Z",
+                "active": false
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/hostNameBindings",
+            "apiVersion": "2022-03-01",
+            "name": "[concat(parameters('sites_delassign_name'), '/', parameters('sites_delassign_name'), '.azurewebsites.net')]",
+            "location": "South Africa North",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_delassign_name'))]"
+            ],
+            "properties": {
+                "siteName": "delassign",
+                "hostNameType": "Verified"
+            }
+        }
+    ]
+}

@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/9b1493f9-2684-4eda-9489-8c7d1254a222/appservices/subscriptions/9b1493f9-2684-4eda-9489-8c7d1254a222/resourceGroups/DeloitteAssignment/providers/Microsoft.Web/sites/delassign",
+    "appService.deploySubpath": "."
+}
